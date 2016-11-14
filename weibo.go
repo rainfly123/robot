@@ -14,8 +14,14 @@ import (
 const URL = "http://live.66boss.com/weibo/square?login_user=1"
 
 var WORDS = []string{
+	"this is what i want to see",
 	"awesome",
+	"无聊啊 晚上一起吃饭吧",
 	"doubtful",
+	"顶顶顶",
+	"一起看电影吧",
+	"你胸大你先说，哈",
+	"你那么漂亮，说什么都对",
 	"给力，楼主",
 	"prefect",
 	"我不以为这样，你说的片面",
@@ -26,6 +32,8 @@ var WORDS = []string{
 	"I think so",
 	":)---:)",
 	"哈哈",
+	"全是套路",
+	"嘿嘿、老大想你哦",
 	"什么啊 这是",
 	"这个不错哦 马上转发",
 	"约吗?今天晚上",
@@ -36,6 +44,8 @@ var WORDS = []string{
 	"加我QQ 有事情找你",
 	"好玩吗? 还是发红包吧",
 	"楼主 快发红包",
+	"太绝了",
+	"真开眼界，带带我",
 }
 
 type Weibo struct {
@@ -87,7 +97,7 @@ func main() {
 			}
 		}
 		if weibo.Comments < 3 {
-			num := rand.Intn(5)
+			num := rand.Intn(8)
 			for j := 0; j < num; j++ {
 				fmt.Println(weibo)
 				user := ALL_USERS[rand.Intn(len(ALL_USERS))]
