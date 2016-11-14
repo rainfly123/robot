@@ -87,19 +87,22 @@ func main() {
 			}
 		}
 		if weibo.Comments < 3 {
-			fmt.Println(weibo)
-			user := ALL_USERS[rand.Intn(len(ALL_USERS))]
-			baseurl := "http://live.66boss.com/weibo/comment?"
+			num := rand.Intn(5)
+			for j := 0; j < num; j++ {
+				fmt.Println(weibo)
+				user := ALL_USERS[rand.Intn(len(ALL_USERS))]
+				baseurl := "http://live.66boss.com/weibo/comment?"
 
-			v := url.Values{}
-			v.Set("comment", WORDS[rand.Intn(len(WORDS))])
-			v.Set("weiboid", strconv.Itoa(weibo.Weiboid))
-			v.Set("login_user", user.ID)
-			url := baseurl + v.Encode()
-			res, _ := http.Get(url)
-			//detail, _ := ioutil.ReadAll(res.Body)
-			//fmt.Println(string(detail))
-			res.Body.Close()
+				v := url.Values{}
+				v.Set("comment", WORDS[rand.Intn(len(WORDS))])
+				v.Set("weiboid", strconv.Itoa(weibo.Weiboid))
+				v.Set("login_user", user.ID)
+				url := baseurl + v.Encode()
+				res, _ := http.Get(url)
+				//detail, _ := ioutil.ReadAll(res.Body)
+				//fmt.Println(string(detail))
+				res.Body.Close()
+			}
 		}
 	}
 }
