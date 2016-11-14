@@ -6,9 +6,28 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"net/url"
+	"strconv"
 )
 
 const URL = "http://live.66boss.com/weibo/square?login_user=1"
+
+var WORDS = []string{
+	"awesome",
+	"doubtful",
+	"给力，楼主",
+	"prefect",
+	"我不以为这样，你说的片面",
+	"太牛比啦",
+	"路过",
+	"留个脚印",
+	"你好啊，楼主，好久不见",
+	"I think so",
+	":)---:)",
+	"哈哈",
+	"牛逼啊，服了",
+	"楼主，快发红包",
+}
 
 type Weibo struct {
 	Weiboid  int
@@ -46,16 +65,31 @@ func main() {
 	ReadUser()
 	GetWeibo()
 	for _, weibo := range ALL_WEIBOS {
-		if weibo.Supports > 10 {
-			continue
+		if weibo.Supports < 10 {
+			fmt.Println(weibo)
+			num := rand.Intn(10)
+			for j := 0; j < num; j++ {
+				user := ALL_USERS[rand.Intn(len(ALL_USERS))]
+				baseurl := "http://live.66boss.com/weibo/support?"
+				url := fmt.Sprintf("%sweiboid=%d&login_user=%s", baseurl, weibo.Weiboid, user.ID)
+				res, _ := http.Get(url)
+				//fmt.Println(url)
+				res.Body.Close()
+			}
 		}
-		num := rand.Intn(10)
-		for j := 0; j < num; j++ {
+		if weibo.Comments < 3 {
+			fmt.Println(weibo)
 			user := ALL_USERS[rand.Intn(len(ALL_USERS))]
-			baseurl := "http://live.66boss.com/weibo/support?"
-			url := fmt.Sprintf("%sweiboid=%d&login_user=%s", baseurl, weibo.Weiboid, user.ID)
+			baseurl := "http://live.66boss.com/weibo/comment?"
+
+			v := url.Values{}
+			v.Set("comment", WORDS[rand.Intn(len(WORDS))])
+			v.Set("weiboid", strconv.Itoa(weibo.Weiboid))
+			v.Set("login_user", user.ID)
+			url := baseurl + v.Encode()
 			res, _ := http.Get(url)
-			fmt.Println(url)
+			//detail, _ := ioutil.ReadAll(res.Body)
+			//fmt.Println(string(detail))
 			res.Body.Close()
 		}
 	}
