@@ -49,11 +49,14 @@ func main() {
 		if weibo.Supports > 10 {
 			continue
 		}
-		user := ALL_USERS[rand.Intn(len(ALL_USERS))]
-		baseurl := "http://live.66boss.com/weibo/support?"
-		url := fmt.Sprintf("%sweiboid=%d&login_user=%s", baseurl, weibo.Weiboid, user.ID)
-		res, _ := http.Get(url)
-		fmt.Println(url)
-		res.Body.Close()
+		num := rand.Intn(10)
+		for j := 0; j < num; j++ {
+			user := ALL_USERS[rand.Intn(len(ALL_USERS))]
+			baseurl := "http://live.66boss.com/weibo/support?"
+			url := fmt.Sprintf("%sweiboid=%d&login_user=%s", baseurl, weibo.Weiboid, user.ID)
+			res, _ := http.Get(url)
+			fmt.Println(url)
+			res.Body.Close()
+		}
 	}
 }
