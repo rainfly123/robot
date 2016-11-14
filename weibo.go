@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 const URL = "http://live.66boss.com/weibo/square?login_user=1"
@@ -61,7 +62,7 @@ func GetWeibo() {
 	}
 }
 func main() {
-	rand.Seed(42)
+	rand.Seed(time.Now().Unix()) // Try changing this number!
 	ReadUser()
 	GetWeibo()
 	for _, weibo := range ALL_WEIBOS {
