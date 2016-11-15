@@ -76,6 +76,7 @@ func robot(liveid string, name string, userid string) {
 			break
 		}
 	}
+	_ = ws.Close()
 }
 
 var WORDS = []string{
@@ -111,7 +112,11 @@ var WORDS = []string{
 	"好玩吗? 还是发红包吧",
 	"楼主 快发红包",
 	"太绝了",
+	"老板-画圈圈诅咒你",
+	"我草，闪人",
+	"主播是猪头，哈哈",
 	"走了 没意思",
+	"老司机-带带我",
 	"真开眼界，带带我",
 }
 
