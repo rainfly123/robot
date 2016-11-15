@@ -45,6 +45,10 @@ var WORDS = []string{
 	"好玩吗? 还是发红包吧",
 	"楼主 快发红包",
 	"太绝了",
+	"求关注",
+	"不看会后悔",
+	"楼主你是90后吗",
+	"看看肯定有收获",
 	"真开眼界，带带我",
 }
 
@@ -115,4 +119,19 @@ func main() {
 			}
 		}
 	}
+	num := rand.Intn(len(ALL_WEIBOS))
+	weibo := ALL_WEIBOS[num]
+	user := ALL_USERS[rand.Intn(len(ALL_USERS))]
+	baseurl := "http://live.66boss.com/weibo/forward?"
+
+	v := url.Values{}
+	v.Set("msg", WORDS[rand.Intn(len(WORDS))])
+	v.Set("origin", strconv.Itoa(weibo.Weiboid))
+	v.Set("login_user", user.ID)
+	url := baseurl + v.Encode()
+	res, _ := http.Get(url)
+	//detail, _ := ioutil.ReadAll(res.Body)
+	//fmt.Println(string(detail))
+	res.Body.Close()
+
 }
