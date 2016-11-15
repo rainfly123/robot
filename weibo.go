@@ -56,6 +56,7 @@ type Weibo struct {
 	Weiboid  int
 	Supports int
 	Comments int
+	Origin   bool
 }
 
 var ALL_WEIBOS []Weibo
@@ -80,7 +81,11 @@ func GetWeibo() {
 		weiboid := int(ok["weiboid"].(float64))
 		comments := int(ok["comments"].(float64))
 		supports := int(ok["supports"].(float64))
-		ALL_WEIBOS = append(ALL_WEIBOS, Weibo{Weiboid: weiboid, Comments: comments, Supports: supports})
+		var origin bool
+		if ok["origin"] == nil {
+			origin = true
+		}
+		ALL_WEIBOS = append(ALL_WEIBOS, Weibo{Weiboid: weiboid, Comments: comments, Supports: supports, Origin: origin})
 	}
 }
 func main() {
@@ -121,17 +126,19 @@ func main() {
 	}
 	num := rand.Intn(len(ALL_WEIBOS))
 	weibo := ALL_WEIBOS[num]
-	user := ALL_USERS[rand.Intn(len(ALL_USERS))]
-	baseurl := "http://live.66boss.com/weibo/forward?"
+	if weibo.Origin {
+		user := ALL_USERS[rand.Intn(len(ALL_USERS))]
+		baseurl := "http://live.66boss.com/weibo/forward?"
 
-	v := url.Values{}
-	v.Set("msg", WORDS[rand.Intn(len(WORDS))])
-	v.Set("origin", strconv.Itoa(weibo.Weiboid))
-	v.Set("login_user", user.ID)
-	url := baseurl + v.Encode()
-	res, _ := http.Get(url)
-	//detail, _ := ioutil.ReadAll(res.Body)
-	//fmt.Println(string(detail))
-	res.Body.Close()
+		v := url.Values{}
+		v.Set("msg", WORDS[rand.Intn(len(WORDS))])
+		v.Set("origin", strconv.Itoa(weibo.Weiboid))
+		v.Set("login_user", user.ID)
+		url := baseurl + v.Encode()
+		res, _ := http.Get(url)
+		//detail, _ := ioutil.ReadAll(res.Body)
+		//fmt.Println(string(detail))
+		res.Body.Close()
+	}
 
 }
